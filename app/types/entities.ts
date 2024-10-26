@@ -7,3 +7,5 @@ export interface Product {
   image: string;
   rating?: { rate: number; count: number };
 }
+
+// db password: CweuJ9OEltxwtAhN

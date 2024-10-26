@@ -120,6 +120,3 @@ model ProductRating {
   @@unique([productId, userId])
   @@map("product_ratings")
 }
-
-
-// https://res.cloudinary.com/duej5khma/image/upload/e_background_removal/f_png/v1729944005/cloth-3_o5lmyn.jpg

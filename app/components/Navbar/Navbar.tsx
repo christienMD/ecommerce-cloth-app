@@ -1,8 +1,9 @@
 "use client";
 
-import { Menu, Search, ShoppingCart } from "lucide-react";
+import { Menu, ShoppingCart } from "lucide-react";
 import Logo from "@/app/components/Logo/Logo";
 import Link from "next/link";
+import Search from "../Search/Search";
 
 const Header = () => {
   const topNavLinks = [
@@ -71,14 +72,7 @@ const Header = () => {
         </div>
 
         {/* search */}
-        <div className="hidden sm:flex items-center h-10 rounded-md flex-grow cursor-pointer bg-yellow-400 hover:bg-yellow-500">
-          <input
-            className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
-            type="text"
-            placeholder="build by md christien"
-          />
-          <Search className="h-12 p-4" />
-        </div>
+         <Search />
 
         {/* right */}
         <div className="text-white flex items-center text-xs space-x-6 mx-6">

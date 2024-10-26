@@ -3,7 +3,7 @@
 import { Menu, ShoppingCart } from "lucide-react";
 import Logo from "@/app/components/Logo/Logo";
 import Link from "next/link";
-import Search from "../Search/Search";
+import Search from "../../Search/Search";
 
 const Header = () => {
   const topNavLinks = [
@@ -72,7 +72,7 @@ const Header = () => {
         </div>
 
         {/* search */}
-         <Search />
+        <Search />
 
         {/* right */}
         <div className="text-white flex items-center text-xs space-x-6 mx-6">

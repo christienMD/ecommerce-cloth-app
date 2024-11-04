@@ -6,7 +6,7 @@ import { useState, useContext } from "react";
 import StarRating from "../StarRating/StartRating";
 import Currency from "../Currency/Currency";
 import HasPrime from "../HasPrime/HasPrime";
-
+import useCartStore from "@/app/store/useCartStore";
 
 interface Props {
   productItem: Product;
@@ -14,6 +14,10 @@ interface Props {
 
 const CheckoutProduct = ({ productItem }: Props) => {
   const [hasPrime] = useState(Math.random() < 0.5);
+  const addProductToCart = useCartStore((state) => state.addProductToCart);
+  const removeProductFromCart = useCartStore(
+    (state) => state.removeItemFromCart
+  );
 
   return (
     <div className="grid grid-cols-5">
@@ -42,11 +46,13 @@ const CheckoutProduct = ({ productItem }: Props) => {
 
       <div className="flex flex-col gap-2 my-auto justify-self-end">
         <button
+          onClick={() => addProductToCart(productItem)}
           className="mt-auto button"
         >
           Add To Basket
         </button>
         <button
+          onClick={() => removeProductFromCart(productItem.id)}
           className="mt-auto button"
         >
           Remove From Basket

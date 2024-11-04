@@ -1,19 +1,18 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const Logo = () => {
   const router = useRouter();
 
   return (
-    <Image
-      onClick={() => router.push("/")}
-      alt="header"
-      src="https://links.papareact.com/f90"
-      height={160}
-      width={70}
-      className="object-contain cursor-pointer mx-2"
-    />
+    <Link href="/">
+      <h1 className="font-bold text-white -tracking-tighter p-1 text-xl">
+        <span className="text-dress_realm-yellow">D</span>ress
+        <span className="text-dress_realm-yellow">R</span>ealm
+      </h1>
+    </Link>
   );
 };
 

@@ -21,8 +21,12 @@ const config: Config = {
           foreground: "hsl(var(--popover-foreground))",
         },
         amazon_blue: {
-          light: "#232F3E",
-          DEFAULT: "#131921",
+          light: "#2C2832",
+          DEFAULT: "#282630",
+          // DEFAULT: "#131921",
+        },
+        dress_realm: {
+          yellow: "#F6AA27",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

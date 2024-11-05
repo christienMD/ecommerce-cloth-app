@@ -6,155 +6,120 @@ This database design implements a scalable e-commerce platform specialized for c
 
 ## 2. Database Schema Overview
 
-### Core Entities
-```
-MainCategory → Category → Subcategory → Product → ProductVariant
-                                     Product → ProductImage
-                                     Product → ProductRating
-```
+Updated Database Schema Documentation:
 
-### Database Statistics
-- Total Tables: 7
-- Primary Relationships: 6
-- Unique Constraints: 5
-- Foreign Key Relationships: 6
+# Database Schema Documentation for DressRealm
 
-## 3. Table Structure Details
+## 1. Users Table
 
-### Product Hierarchy
-1. **MainCategory**
-   - Primary categories (e.g., Clothing, Accessories)
-   - UUID-based identification
-   - Unique slugs for URL-friendly navigation
-   
-2. **Category**
-   - Secondary level categorization
-   - Linked to MainCategory via foreign key
-   - Composite unique constraint on [mainCategoryId, slug]
-   
-3. **Subcategory**
-   - Detailed product classification
-   - Linked to Category via foreign key
-   - Composite unique constraint on [categoryId, slug]
+**Purpose:** Store user information and credentials.
 
-### Product Information
-4. **Product**
-   - Core product details
-   - Base pricing information
-   - Slug-based unique identification for SEO
-   - Feature flagging capability (isFeatured)
-   
-5. **ProductVariant**
-   - Size and color combinations
-   - Individual pricing and stock management
-   - Composite unique constraint on [productId, size, color]
+| Column Name   | Data Type    | Constraints | Description                                 |
+|---------------|--------------|-------------|---------------------------------------------|
+| user_id       | INT          | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each user |
+| username      | VARCHAR(50)  | NOT NULL, UNIQUE | User's username for login |
+| email         | VARCHAR(100) | NOT NULL, UNIQUE | User's email address |
+| password_hash | VARCHAR(255) | NOT NULL    | Hashed password for security |
+| first_name    | VARCHAR(50)  | NOT NULL    | User's first name |
+| last_name     | VARCHAR(50)  | NOT NULL    | User's last name |
+| phone_number  | VARCHAR(20)  | NULL        | User's phone number |
+| address       | VARCHAR(255) | NULL        | User's shipping address |
+| created_at    | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP | Timestamp of user registration |
+| updated_at    | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Timestamp of last user update |
 
-### Supporting Entities
-6. **ProductImage**
-   - Multiple images per product
-   - Primary image flagging
-   - Display order management
-   
-7. **ProductRating**
-   - Customer feedback system
-   - Verified purchase tracking
-   - One rating per user per product
+## 2. Categories Table
 
-## 4. Key Features
+**Purpose:** Store product category information.
 
-### Data Integrity
-- UUID primary keys for distributed system compatibility
-- Comprehensive foreign key constraints
-- Soft delete capability via isActive flags
-- Automatic timestamp management (createdAt, updatedAt)
+| Column Name | Data Type    | Constraints | Description                                 |
+|-------------|--------------|-------------|---------------------------------------------|
+| category_id | INT          | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each category |
+| name        | VARCHAR(50)  | NOT NULL, UNIQUE | Name of the category |
+| description | VARCHAR(255) | NULL        | Brief description of the category |
+| created_at  | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP | Timestamp of category creation |
+| updated_at  | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Timestamp of last category update |
 
-### Performance Optimizations
-- Strategic indexing on frequently queried columns
-- Normalized structure to minimize redundancy
-- Efficient data types (Decimal for prices, etc.)
-- Composite indexes for common query patterns
+## 3. Products Table
 
-### Scalability Features
-- Flexible category hierarchy
-- Independent variant management
-- Extensible image system
-- Separated rating system
+**Purpose:** Store product information.
 
-## 5. Relationship Details
+| Column Name   | Data Type    | Constraints | Description                                 |
+|---------------|--------------|-------------|---------------------------------------------|
+| product_id    | INT          | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each product |
+| category_id   | INT          | FOREIGN KEY (Categories.category_id) | ID of the category the product belongs to |
+| name          | VARCHAR(100) | NOT NULL    | Name of the product |
+| description   | TEXT         | NULL        | Detailed description of the product |
+| price         | DECIMAL(10,2)| NOT NULL    | Price of the product |
+| stock_level   | INT          | NOT NULL    | Current stock level of the product |
+| created_at    | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP | Timestamp of product creation |
+| updated_at    | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Timestamp of last product update |
 
-### One-to-Many Relationships
-1. MainCategory → Category
-   - One main category can have multiple categories
-   - Example: "Clothing" → ["Pullovers", "Pants", "T-shirts"]
+## 4. ProductVariants Table
 
-2. Category → Subcategory
-   - One category can have multiple subcategories
-   - Example: "Pullovers" → ["Hoodies", "Sweatshirts"]
+**Purpose:** Store variations of a product (e.g., size, color).
 
-3. Product → ProductVariant
-   - One product can have multiple size/color combinations
-   - Example: "Classic Black Hoodie" → ["S/Black", "M/Black", "L/Black"]
+| Column Name   | Data Type    | Constraints | Description                                 |
+|---------------|--------------|-------------|---------------------------------------------|
+| variant_id    | INT          | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each product variant |
+| product_id    | INT          | FOREIGN KEY (Products.product_id) | ID of the product the variant belongs to |
+| name          | VARCHAR(100) | NOT NULL    | Name of the variant (e.g., size, color) |
+| stock_level   | INT          | NOT NULL    | Current stock level of the variant |
+| created_at    | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP | Timestamp of variant creation |
+| updated_at    | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Timestamp of last variant update |
 
-### Supporting Relationships
-1. Product → ProductImage
-   - Multiple images per product
-   - Primary image flagging
-   - Ordered display capability
+## 5. ProductImages Table
 
-2. Product → ProductRating
-   - Multiple customer ratings per product
-   - Verified purchase tracking
-   - One rating per user enforcement
+**Purpose:** Store images associated with products.
 
-## 6. Technical Specifications
+| Column Name | Data Type    | Constraints | Description                                 |
+|-------------|--------------|-------------|---------------------------------------------|
+| image_id    | INT          | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each product image |
+| product_id  | INT          | FOREIGN KEY (Products.product_id) | ID of the product the image belongs to |
+| image_url   | VARCHAR(255) | NOT NULL    | URL of the product image |
+| alt_text    | VARCHAR(255) | NULL        | Alternative text for the image |
+| created_at  | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP | Timestamp of image upload |
 
-### Data Types
-- IDs: UUID (string)
-- Prices: Decimal(10,2)
-- Dates: DateTime with timezone
-- Text: String with appropriate constraints
-- Status Flags: Boolean
+## 6. Orders Table
 
-### Indexes
-- Primary Keys: UUID on all tables
-- Foreign Keys: Referenced table relationships
-- Unique Constraints: 
-  - MainCategory: name, slug
-  - Product: slug
-  - ProductVariant: [productId, size, color]
-  - ProductRating: [productId, userId]
+**Purpose:** Store order information.
 
-## 7. Best Practices Implementation
+| Column Name   | Data Type    | Constraints | Description                                 |
+|---------------|--------------|-------------|---------------------------------------------|
+| order_id      | INT          | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each order |
+| user_id       | INT          | FOREIGN KEY (Users.user_id) | ID of the user who placed the order |
+| order_date    | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP | Timestamp of order placement |
+| status        | VARCHAR(20)  | NOT NULL    | Current status of the order (e.g., pending, shipped) |
+| total_amount  | DECIMAL(10,2)| NOT NULL    | Total amount of the order |
 
-### Naming Conventions
-- camelCase for field names in Prisma
-- snake_case mapping for PostgreSQL
-- Consistent plural table names
-- Clear, descriptive field names
+## 7. OrderItems Table
 
-### Data Management
-- Soft delete implementation
-- Automated timestamp handling
-- Version tracking via updatedAt
-- Stock quantity tracking
-- Status management via isActive flags
+**Purpose:** Store individual items within an order.
 
-## 8. Security Considerations
+| Column Name   | Data Type    | Constraints | Description                                 |
+|---------------|--------------|-------------|---------------------------------------------|
+| order_item_id | INT          | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each order item |
+| order_id      | INT          | FOREIGN KEY (Orders.order_id) | ID of the order the item belongs to |
+| variant_id    | INT          | FOREIGN KEY (ProductVariants.variant_id) | ID of the product variant |
+| quantity      | INT          | NOT NULL    | Quantity of the item ordered |
+| price         | DECIMAL(10,2)| NOT NULL    | Price of the item at the time of order |
 
-- No sensitive data in plain text
-- Proper data type constraints
-- Activity tracking fields
-- User verification for ratings
-- Purchase verification system
+## Relationships
 
-## 9. Future Expansion Capabilities
+- Each `User` can place multiple `Orders`.
+- Each `Order` belongs to one `User`.
+- Each `Order` can have multiple `OrderItems`.
+- Each `OrderItem` belongs to one `Order` and one `ProductVariant`.
+- Each `Product` belongs to one `Category`.
+- Each `Product` can have multiple `ProductVariants` and `ProductImages`.
+- Each `ProductVariant` belongs to one `Product`.
+- Each `ProductImage` belongs to one `Product`.
 
-The design allows for:
-1. New product categories
-2. Additional product attributes
-3. Enhanced rating features
-4. Extended image capabilities
-5. Inventory management expansion
+This updated schema and documentation include the `ProductImages` table and its relationship with the `Products` table. The `ProductImages` table stores the images associated with each product, allowing for multiple images per product.
+
+The relationships between the tables remain the same, with the addition of the one-to-many relationship between `Product` and `ProductImage`.
+
+I apologize for the previous oversight, and I hope this updated schema and documentation meet your requirements for the DressRealm e-commerce platform.
+
 
 ## Tech Stack
 

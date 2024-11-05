@@ -6,5 +6,6 @@ export const formatPrice = (price: number): string => {
     currencyDisplay: "name",
   })
     .format(price)
-    .replace("francs CFA", "Frs CFA"); 
+    .replace("francs CFA (BEAC)", "Frs CFA")
+    .replace("francs CFA", "Frs CFA");
 };

@@ -1,6 +1,6 @@
 import { Product } from "@/app/types/entities";
 import Image from "next/image";
-import ProductCard from "../../cards/ProductCard";
+import ProductCard from "../../cards/ProductCard/ProductCard";
 
 const ProductFeed = async () => {
   const res = await fetch("https://fakestoreapi.com/products");

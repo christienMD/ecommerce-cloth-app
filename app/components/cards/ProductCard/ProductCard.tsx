@@ -1,17 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useContext, useState } from "react";
-import HasPrime from "../HasPrime/HasPrime";
+import { useState } from "react";
+import HasPrime from "../../HasPrime/HasPrime";
 import { Product } from "@/app/types/entities";
-import StarRating from "../StarRating/StartRating";
-import Currency from "../Currency/Currency";
+import StarRating from "../../StarRating/StartRating";
+import Currency from "../../Currency/Currency";
+import useCartStore from "@/app/store/useCartStore";
 
 interface Props {
   product: Product;
 }
 
 const ProductCard = ({ product }: Props) => {
+  const addProductToCart = useCartStore((state) => state.addProductToCart);
   const [hasPrime] = useState(Math.random() < 0.5);
 
   return (
@@ -37,6 +39,7 @@ const ProductCard = ({ product }: Props) => {
 
       <button
         className="mt-auto button"
+        onClick={() => addProductToCart(product)}
       >
         Add To Basket
       </button>

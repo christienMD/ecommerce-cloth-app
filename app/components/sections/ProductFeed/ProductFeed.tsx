@@ -20,7 +20,7 @@ const ProductFeed = () => {
 
  if (!products) return null;
   return (
-    <div className="grid grid-flow-row-dense md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:-mt-52 mx-auto">
+    <div className="grid grid-flow-row-dense md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 md:-mt-52 mx-auto">
       {/* Render the first 5 products */}
       {products?.slice(0, 5).map((product: ProductWithDetails) => (
         <ProductCard key={product.id} product={product} />

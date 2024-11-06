@@ -11,7 +11,7 @@ const ProductFeedSkeleton = () => {
     .map((_, i) => <ProductCardSkeleton key={`skeleton-${i}`} />);
 
   return (
-    <div className="grid grid-flow-row-dense md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:-mt-52 mx-auto">
+    <div className="grid grid-flow-row-dense md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 md:-mt-52 mx-auto">
       {/* First 5 skeleton cards */}
       {skeletonCards.slice(0, 5)}
 

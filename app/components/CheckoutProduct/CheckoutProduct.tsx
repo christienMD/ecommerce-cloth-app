@@ -6,10 +6,12 @@ import StarRating from "../StarRating/StartRating";
 import Currency from "../Currency/Currency";
 import HasPrime from "../HasPrime/HasPrime";
 import useCartStore from "@/app/store/useCartStore";
-import { Product } from "@/app/types/entities";
+import { ProductWithDetails } from "@/app/types/entities";
+import { Prisma } from "@prisma/client";
+
 
 interface Props {
-  productItem: Product;
+  productItem: ProductWithDetails;
 }
 
 const CheckoutProduct = ({ productItem }: Props) => {
@@ -24,12 +26,24 @@ const CheckoutProduct = ({ productItem }: Props) => {
   const itemInCart = cartItems.find((item) => item.id === productItem.id);
   const quantity = itemInCart?.quantity || 0;
 
+  // Get the first image or use a placeholder
+  const productImage =
+    productItem.images[0]?.imageUrl || "/placeholder-product.jpg";
+
+  // Convert Prisma Decimal to number for the Currency component
+  const price =
+    productItem.price instanceof Prisma.Decimal
+      ? parseFloat(productItem.price.toString())
+      : typeof productItem.price === "string"
+      ? parseFloat(productItem.price)
+      : productItem.price;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4 py-4">
       {/* Image Container */}
       <div className="relative h-[200px] md:h-[160px] w-full md:w-[125px] mx-auto md:ms-3">
         <Image
-          src={productItem.image}
+          src={productImage}
           alt=""
           loading="lazy"
           fill
@@ -40,12 +54,12 @@ const CheckoutProduct = ({ productItem }: Props) => {
 
       {/* Middle Section */}
       <div className="col-span-1 md:col-span-3 space-y-2 md:ms-6 md:mx-5">
-        <p>{productItem.title}</p>
+        <p>{productItem.name}</p>
         <div>
           <StarRating />
         </div>
         <p className="text-xs my-2 line-clamp-3">{productItem.description}</p>
-        <Currency price={productItem.price} />
+        <Currency price={price} />
         {hasPrime && <HasPrime />}
       </div>
 

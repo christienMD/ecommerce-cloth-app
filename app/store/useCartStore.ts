@@ -1,9 +1,10 @@
 import { Product, Prisma } from "@prisma/client";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { ProductWithDetails } from "../types/entities";
 
 // Extend the Product type to include quantity and handle Decimal
-interface CartItem extends Omit<Product, "price"> {
+interface CartItem extends Omit<ProductWithDetails, "price"> {
   quantity: number;
   price: number | string | Prisma.Decimal;
 }
@@ -15,7 +16,7 @@ interface CartState {
 }
 
 interface CartActions {
-  addProductToCart: (item: Product) => void;
+  addProductToCart: (item: ProductWithDetails) => void;
   removeItemFromCart: (productId: number) => void;
   increaseQuantity: (productId: number) => void;
   decreaseQuantity: (productId: number) => void;
@@ -33,7 +34,7 @@ const useCartStore = create<CartState & CartActions>()(
     (set, get) => ({
       cartItems: [],
 
-      addProductToCart: (item) => {
+      addProductToCart: (item: ProductWithDetails) => {
         const existingItem = get().cartItems.find(
           (cartItem) => cartItem.id === item.id
         );
@@ -51,6 +52,8 @@ const useCartStore = create<CartState & CartActions>()(
             ...item,
             price: convertToNumber(item.price),
             quantity: 1,
+            category: item.category,
+            images: item.images,
           };
           set({ cartItems: [...get().cartItems, newItem] });
         }

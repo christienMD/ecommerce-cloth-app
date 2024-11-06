@@ -51,7 +51,6 @@ const CartItemFeed = () => {
                 className="button mt-2 bg-gradient-to-b from-yellow-200 to-yellow-400 border-yellow-300 hover:from-yellow-300"
                 onClick={() => {
                   // Handle checkout process here
-                  // Since we're already checking auth in the page component,
                   // this button will only be visible to authenticated users
                 }}
               >

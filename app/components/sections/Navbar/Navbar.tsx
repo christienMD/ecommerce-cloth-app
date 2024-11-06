@@ -1,26 +1,13 @@
-"use client";
-
-import { Menu, ShoppingCart } from "lucide-react";
+import { Menu } from "lucide-react";
 import Logo from "@/app/components/Logo/Logo";
+import Search from "@/app/components/Search/Search"
+import CartBasket from "@/app/components/CartBasket/CartBasket"
 import Link from "next/link";
-import Search from "../../Search/Search";
-import CartIcon from "../../CartIcon/CartIcon";
+import { auth, signOut } from "@/auth";
+import UserProfile from "@/app/components/UserProfile/UserProfile";
 
-const Header = () => {
-  const topNavLinks = [
-    {
-      id: "account",
-      href: "/account",
-      title: "Sign In",
-      subtitle: "Account & Lists",
-    },
-    {
-      id: "orders",
-      href: "/orders",
-      title: "Returns",
-      subtitle: "& Orders",
-    },
-  ];
+const Navbar = async () => {
+  const session = await auth();
 
   const bottomNavLinks = [
     { id: "video", href: "/prime-video", label: "Prime Video" },
@@ -77,13 +64,25 @@ const Header = () => {
 
         {/* right */}
         <div className="text-white flex items-center text-xs space-x-6 mx-6">
-          {topNavLinks.map((link) => (
-            <Link key={link.id} href={link.href} className="link">
-              <p>{link.title}</p>
-              <p className="font-extrabold md:text-sm">{link.subtitle}</p>
+          {session?.user ? (
+            <UserProfile
+              name={session.user.name ?? null}
+              email={session.user.email ?? null}
+              image={session.user.image ?? null}
+            />
+          ) : (
+            <Link href="/api/auth/signin" className="link">
+              <p>Sign In</p>
+              <p className="font-extrabold md:text-sm">Account & Lists</p>
             </Link>
-          ))}
-          <CartIcon />
+          )}
+
+          <Link href="/orders" className="link">
+            <p>Returns</p>
+            <p className="font-extrabold md:text-sm">& Orders</p>
+          </Link>
+
+          <CartBasket />
         </div>
       </div>
 
@@ -106,4 +105,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;

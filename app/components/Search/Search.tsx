@@ -7,7 +7,7 @@ const Search = () => {
       <input
         className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
         type="text"
-        placeholder="build by md christien"
+        placeholder="Search for cloths of all categories..."
       />
       <SearchIcon className="h-12 w-12 p-4" />
     </div>

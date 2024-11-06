@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import { Product } from "../types/entities";
+import { ProductWithDetails } from "../types/entities";
 
 interface State {
-  products: Product[];
+  products: ProductWithDetails[];
   isLoading: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
 }
 

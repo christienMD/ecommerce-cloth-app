@@ -1,11 +1,9 @@
 "use client";
 
+import banner2 from "@/public/banner-2.webp";
 import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import banner1 from "@/public/banner-1.webp";
-import banner2 from "@/public/banner-2.webp";
-import banner3 from "@/public/banner-3.webp";
 
 const Banner = () => {
   const bannerImages = [

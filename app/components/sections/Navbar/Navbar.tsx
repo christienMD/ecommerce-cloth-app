@@ -1,10 +1,10 @@
-import { Menu } from "lucide-react";
+import CartBasket from "@/app/components/CartBasket/CartBasket";
 import Logo from "@/app/components/Logo/Logo";
-import Search from "@/app/components/Search/Search"
-import CartBasket from "@/app/components/CartBasket/CartBasket"
-import Link from "next/link";
-import { auth, signOut } from "@/auth";
+import Search from "@/app/components/Search/Search";
 import UserProfile from "@/app/components/UserProfile/UserProfile";
+import { auth } from "@/auth";
+import { Menu } from "lucide-react";
+import Link from "next/link";
 
 const Navbar = async () => {
   const session = await auth();

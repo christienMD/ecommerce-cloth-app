@@ -5,26 +5,24 @@ const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   try {
-    // Get the URL object to parse search params
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const pageSize = 19;
-
-    // Calculate skip value for pagination
     const skip = (page - 1) * pageSize;
 
-    // Use transaction to ensure data consistency
     const [products, totalCount] = await prisma.$transaction([
       prisma.product.findMany({
         where: {
           category: {
-            isActive: true,
+            is: {
+              isActive: true,
+            },
           },
         },
         include: {
           category: true,
-          images: true, // Include all images
-          variants: true, // Include variants if needed
+          images: true,
+          variants: true,
         },
         skip,
         take: pageSize,
@@ -32,7 +30,9 @@ export async function GET(request: Request) {
       prisma.product.count({
         where: {
           category: {
-            isActive: true,
+            is: {
+              isActive: true,
+            },
           },
         },
       }),

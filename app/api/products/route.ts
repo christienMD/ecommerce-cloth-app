@@ -12,7 +12,9 @@ export async function GET(request: Request) {
       prisma.product.findMany({
         where: {
           category: {
-            isActive: true,
+            is: { 
+              isActive: true
+            }
           },
         },
         include: {
@@ -26,7 +28,9 @@ export async function GET(request: Request) {
       prisma.product.count({
         where: {
           category: {
-            isActive: true,
+            is: { 
+              isActive: true
+            }
           },
         },
       }),

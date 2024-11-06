@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/sections/Navbar/Navbar";
 import { Toaster } from "@/components/ui/toaster";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import QueryClientProvider from "./components/QueryClientProvider/QueryClientProvider";
 import Footer from "./components/sections/Footer/Footer";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Toaster />
           <Footer />
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </body>
     </html>

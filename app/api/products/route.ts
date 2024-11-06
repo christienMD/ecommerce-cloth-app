@@ -1,7 +1,6 @@
 import prisma from "@/prisma/client";
 import { NextResponse } from "next/server";
 
-
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -13,7 +12,9 @@ export async function GET(request: Request) {
       prisma.product.findMany({
         where: {
           category: {
-            isActive: true,
+            is: {
+              isActive: true,
+            },
           },
         },
         include: {
@@ -27,7 +28,9 @@ export async function GET(request: Request) {
       prisma.product.count({
         where: {
           category: {
-            isActive: true,
+            is: {
+              isActive: true,
+            },
           },
         },
       }),

@@ -1,17 +1,49 @@
 "use client";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+
 import Link from "next/link";
 
 const Logo = () => {
-  const router = useRouter();
 
   return (
     <Link href="/">
-      <h1 className="font-bold text-white -tracking-tighter p-1 text-xl">
-        <span className="text-dress_realm-yellow">D</span>ress
-        <span className="text-dress_realm-yellow">R</span>ealm
-      </h1>
+      <div className="relative flex items-center">
+        <div className="flex items-center">
+          <div className="w-10 h-10 bg-dress_realm-yellow rounded-full flex justify-center items-center">
+            <span className="text-white text-2xl font-bold">D</span>
+          </div>
+
+          <div className="relative ml-0">
+            <h1 className="text-2xl font-bold text-white custom-font">
+              ress<span className="text-dress_realm-yellow">Realm</span>
+            </h1>
+
+            <svg
+              className="absolute -bottom-4 -left-6"
+              width="120%"
+              height="20"
+              viewBox="0 0 120 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 2 Q 60 20 110 2"
+                stroke="#FFC107"
+                strokeWidth="2"
+                strokeLinecap="round"
+                fill="none"
+              />
+              <path
+                d="M106 1 L 110 2 L 108 6"
+                stroke="#FFC107"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
     </Link>
   );
 };

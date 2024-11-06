@@ -13,9 +13,7 @@ export async function GET(request: Request) {
         where: {
           category: {
             is: {
-              isActive: {
-                equals: true,
-              },
+              is_active: true,
             },
           },
         },
@@ -31,9 +29,7 @@ export async function GET(request: Request) {
         where: {
           category: {
             is: {
-              isActive: {
-                equals: true,
-              },
+              is_active: true,
             },
           },
         },

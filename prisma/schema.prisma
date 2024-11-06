@@ -1,13 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
-// schema.prisma
 
 datasource db {
   provider = "postgresql"
@@ -15,62 +8,59 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  username      String   @unique
-  email         String   @unique
+  id            Int       @id @default(autoincrement())
+  username      String    @unique
+  email         String    @unique
   passwordHash  String
   firstName     String
   lastName      String
   phoneNumber   String?
   address       String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  orders        Order[]
-
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   emailVerified DateTime? @map("email_verified")
   image         String?
+  orders        Order[]
   accounts      Account[]
   sessions      Session[]
- 
+
   @@map("users")
 }
 
-
 model Account {
-  id                 Int     @id @default(autoincrement())
-  userId             Int     @map("user_id")  
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+  id                Int     @id @default(autoincrement())
+  userId            Int     @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
- 
+
 model Session {
   id           Int      @id @default(autoincrement())
   sessionToken String   @unique @map("session_token")
   userId       Int      @map("user_id")
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@map("sessions")
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
@@ -79,44 +69,44 @@ model Category {
   id          Int       @id @default(autoincrement())
   name        String    @unique
   description String?
-  isActive    Boolean   @default(true) @map("is_active")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  isActive    Boolean   @default(true) @map("is_active")
   products    Product[]
 }
 
 model Product {
-  id           Int              @id @default(autoincrement())
-  name         String
-  description  String?
-  price        Decimal
-  stockLevel   Int
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-  category     Category         @relation(fields: [categoryId], references: [id])
-  categoryId   Int
-  variants     ProductVariant[]
-  images       ProductImage[]
+  id          Int              @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal
+  stockLevel  Int
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  categoryId  Int
+  category    Category         @relation(fields: [categoryId], references: [id])
+  images      ProductImage[]
+  variants    ProductVariant[]
 }
 
 model ProductVariant {
-  id          Int         @id @default(autoincrement())
-  name        String
-  stockLevel  Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  product     Product     @relation(fields: [productId], references: [id])
-  productId   Int
-  orderItems  OrderItem[]
+  id         Int         @id @default(autoincrement())
+  name       String
+  stockLevel Int
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  productId  Int
+  orderItems OrderItem[]
+  product    Product     @relation(fields: [productId], references: [id])
 }
 
 model ProductImage {
-  id         Int      @id @default(autoincrement())
-  imageUrl   String
-  altText    String?
-  createdAt  DateTime @default(now())
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  Int
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  altText   String?
+  createdAt DateTime @default(now())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
 }
 
 model Order {
@@ -125,19 +115,19 @@ model Order {
   totalAmount Decimal
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  user        User        @relation(fields: [userId], references: [id])
   userId      Int
+  user        User        @relation(fields: [userId], references: [id])
   items       OrderItem[]
 }
 
 model OrderItem {
-  id          Int            @id @default(autoincrement())
-  quantity    Int
-  price       Decimal
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  order       Order          @relation(fields: [orderId], references: [id])
-  orderId     Int
-  variant     ProductVariant @relation(fields: [variantId], references: [id])
-  variantId   Int
+  id        Int            @id @default(autoincrement())
+  quantity  Int
+  price     Decimal
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  orderId   Int
+  variantId Int
+  order     Order          @relation(fields: [orderId], references: [id])
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
 }

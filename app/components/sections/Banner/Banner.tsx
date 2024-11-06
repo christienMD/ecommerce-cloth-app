@@ -3,10 +3,13 @@
 import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import banner1 from "@/public/banner-1.webp";
+import banner2 from "@/public/banner-2.webp";
+import banner3 from "@/public/banner-3.webp";
 
 const Banner = () => {
   const bannerImages = [
-    "https://links.papareact.com/gi1",
+    banner2,
     "https://links.papareact.com/6ff",
     "https://links.papareact.com/7ma",
   ];

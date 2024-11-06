@@ -1,16 +1,32 @@
-import { Product } from "@/app/types/entities";
+"use client";
+
 import Image from "next/image";
 import ProductCard from "../../cards/ProductCard/ProductCard";
+import { ProductWithDetails } from "@/app/types/entities";
+import useProducts from "@/hooks/useProducts";
+import ProductFeedSkeleton from "../../Skeletons/ProductFeedSkeleton/ProductFeedSkeleton";
+import ProductFeedError from "../../ProductFeedError/ProductFeedError";
 
-const ProductFeed = async () => {
-  const res = await fetch("https://fakestoreapi.com/products");
-  const products: Product[] = await res.json();
+const ProductFeed = () => {
+ const { data: products, isLoading, error, refetch } = useProducts();
 
+ if (isLoading) {
+   return <ProductFeedSkeleton />;
+ }
+
+ if (error) {
+   return <ProductFeedError error={error} reset={() => refetch()} />;
+ }
+
+ if (!products) return null;
   return (
-    <div className="grid grid-flow-row-dense md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:-mt-52 mx-auto">
-      {products.slice(0, 5).map((product) => (
+    <div className="grid grid-flow-row-dense md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 md:-mt-52 mx-auto">
+      {/* Render the first 5 products */}
+      {products?.slice(0, 5).map((product: ProductWithDetails) => (
         <ProductCard key={product.id} product={product} />
       ))}
+
+      {/* Render the Banner image */}
       <div className="relative h-[300px] md:col-span-full mx-5">
         <Image
           className="w-full h-full object-cover"
@@ -23,14 +39,19 @@ const ProductFeed = async () => {
         />
       </div>
 
+      {/* Render the 6th product */}
       <div className="md:col-span-2">
-        {products.slice(5, 6).map((product) => (
+        {products?.slice(5, 6).map((product: ProductWithDetails) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-      {products.slice(6, products.length).map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+
+      {/* Render the remaining products */}
+      {products
+        ?.slice(6, products.length)
+        .map((product: ProductWithDetails) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
     </div>
   );
 };

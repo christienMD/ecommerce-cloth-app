@@ -17,7 +17,7 @@ const Logo = () => {
               ress<span className="text-dress_realm-yellow">Realm</span>
             </h1>
 
-            <svg
+            {/* <svg
               className="absolute -bottom-4 -left-6"
               width="120%"
               height="20"
@@ -40,7 +40,7 @@ const Logo = () => {
                 strokeLinejoin="round"
                 fill="none"
               />
-            </svg>
+            </svg> */}
           </div>
         </div>
       </div>

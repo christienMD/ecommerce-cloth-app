@@ -9,7 +9,7 @@ const Logo = () => {
       <div className="relative flex items-center">
         <div className="flex items-center">
           <div className="w-8 sm:w-10 h-8 sm:h-10 bg-dress_realm-yellow rounded-full flex justify-center items-center">
-            <span className="text-white text-2xl font-bold">D</span>
+            <span className="text-amazon_blue text-2xl font-bold">D</span>
           </div>
 
           <div className="relative ml-0">

@@ -1,9 +1,10 @@
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating?: { rate: number; count: number };
+import {
+  Product as PrismaProduct,
+  Category,
+  ProductImage,
+} from "@prisma/client";
+
+export interface ProductWithDetails extends PrismaProduct {
+  category: Category;
+  images: ProductImage[];
 }

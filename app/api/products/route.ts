@@ -10,15 +10,6 @@ export async function GET(request: Request) {
 
     const [products, totalCount] = await prisma.$transaction([
       prisma.product.findMany({
-        where: {
-          category: {
-            is: {
-              is_active: {
-                equals: true,
-              },
-            },
-          },
-        },
         include: {
           category: true,
           images: true,
@@ -27,17 +18,7 @@ export async function GET(request: Request) {
         skip,
         take: pageSize,
       }),
-      prisma.product.count({
-        where: {
-          category: {
-            is: {
-              is_active: {
-                equals: true,
-              },
-            },
-          },
-        },
-      }),
+      prisma.product.count(),
     ]);
 
     return NextResponse.json({

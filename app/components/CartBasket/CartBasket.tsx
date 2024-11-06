@@ -1,4 +1,3 @@
-"use client";
 
 import CartIcon from "../CartIcon/CartIcon";
 

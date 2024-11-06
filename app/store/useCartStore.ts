@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { ProductWithDetails } from "../types/entities";
+import { useEffect, useState } from "react";
 
 // Extend the Product type to include quantity and handle Decimal
 interface CartItem extends Omit<ProductWithDetails, "price"> {
@@ -11,6 +12,7 @@ interface CartItem extends Omit<ProductWithDetails, "price"> {
 
 interface CartState {
   cartItems: CartItem[];
+  isHydrated: boolean;
   getTotalItems: () => number;
   itemsTotalPrice: (products: CartItem[]) => string;
 }
@@ -20,6 +22,7 @@ interface CartActions {
   removeItemFromCart: (productId: number) => void;
   increaseQuantity: (productId: number) => void;
   decreaseQuantity: (productId: number) => void;
+  setHydrated: (state: boolean) => void;
 }
 
 // Helper function to convert Prisma.Decimal to number
@@ -33,6 +36,11 @@ const useCartStore = create<CartState & CartActions>()(
   persist(
     (set, get) => ({
       cartItems: [],
+      isHydrated: false,
+
+      setHydrated: (state: boolean) => {
+        set({ isHydrated: state });
+      },
 
       addProductToCart: (item: ProductWithDetails) => {
         const existingItem = get().cartItems.find(
@@ -117,11 +125,29 @@ const useCartStore = create<CartState & CartActions>()(
       name: "cart-storage",
       storage: createJSONStorage(() => localStorage),
       skipHydration: true,
+      onRehydrateStorage: () => () => {
+        useCartStore.getState().setHydrated(true);
+      },
     }
   )
 );
 
-// Initialize the store immediately
+
+// Custom hook for hydration
+export const useHydration = () => {
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      useCartStore.persist.rehydrate();
+      setHydrated(true);
+    }
+  }, []);
+
+  return hydrated;
+};
+
+// Initialize the store immediately in browser
 if (typeof window !== "undefined") {
   useCartStore.persist.rehydrate();
 }

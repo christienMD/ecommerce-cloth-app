@@ -25,7 +25,7 @@ const Banner = () => {
         interval={5000}
       >
         {bannerImages.map((src, index) => (
-          <div key={index} className="relative h-screen">
+          <div key={index} className="relative h-80 sm:h-96 md:h-screen">
             <Image
               quality={100}
               alt="banner-image"

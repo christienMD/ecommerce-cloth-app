@@ -15,6 +15,7 @@ interface CartState {
   isHydrated: boolean;
   getTotalItems: () => number;
   itemsTotalPrice: (products: CartItem[]) => string;
+  
 }
 
 interface CartActions {

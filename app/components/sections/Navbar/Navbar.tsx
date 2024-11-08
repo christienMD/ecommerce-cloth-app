@@ -10,9 +10,9 @@ const Navbar = async () => {
   const session = await auth();
 
   const bottomNavLinks = [
-    { id: "video", href: "/prime-video", label: "Prime Video" },
-    { id: "business", href: "/business", label: "Amazone Business" },
-    { id: "deals", href: "/deals", label: "Today's Deals" },
+    { id: "video", href: "/", label: "Prime Video" },
+    { id: "deals", href: "/", label: "Today's Deals" },
+    { id: "orders", href: "/orders", label: "Returns & Orders" },
     {
       id: "electronics",
       href: "/electronics",
@@ -23,12 +23,6 @@ const Navbar = async () => {
       id: "grocery",
       href: "/grocery",
       label: "Food & Grocery",
-      className: "hidden lg:inline-flex",
-    },
-    {
-      id: "prime",
-      href: "/prime",
-      label: "Prime",
       className: "hidden lg:inline-flex",
     },
     {
@@ -77,7 +71,7 @@ const Navbar = async () => {
             </Link>
           )}
 
-          <Link href="/orders" className="link">
+          <Link href="/orders" className="link hidden sm:block">
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </Link>
@@ -100,6 +94,10 @@ const Navbar = async () => {
             {link.label}
           </Link>
         ))}
+        <Link href="/orders" className="hidden sm:hidden">
+          <p>Returns</p>
+          <p className="font-extrabold md:text-sm">& Orders</p>
+        </Link>
       </div>
     </header>
   );

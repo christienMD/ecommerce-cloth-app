@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Star } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -193,7 +194,10 @@ export function CustomProductList() {
                       </div>
                     </div>
                     <div className="flex justify-end items-center mb-4">
+                    <Link href={`/customize/${item.id}`} passHref>
                       <Button>Customize</Button>
+                    </Link>
+
                     </div>
                   </div>
                 </CardContent>

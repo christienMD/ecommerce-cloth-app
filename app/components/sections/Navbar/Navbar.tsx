@@ -3,44 +3,33 @@ import Logo from "@/app/components/Logo/Logo";
 import Search from "@/app/components/Search/Search";
 import UserProfile from "@/app/components/UserProfile/UserProfile";
 import { auth } from "@/auth";
-import { Menu } from "lucide-react";
 import Link from "next/link";
+import Sidebar from "../Sidebar/Sidebar";
 
 const Navbar = async () => {
   const session = await auth();
 
   const bottomNavLinks = [
-    { id: "video", href: "/", label: "Prime Video" },
+    { id: "all", href: "/", label: "All Products" },
+    { id: "new", href: "/", label: "New Arrivals" },
     { id: "deals", href: "/", label: "Today's Deals" },
     { id: "orders", href: "/orders", label: "Returns & Orders" },
     {
-      id: "electronics",
-      href: "/electronics",
-      label: "Electronics",
+      id: "featured",
+      href: "/",
+      label: "Featured",
       className: "hidden lg:inline-flex",
     },
     {
-      id: "grocery",
-      href: "/grocery",
-      label: "Food & Grocery",
+      id: "trending",
+      href: "/",
+      label: "Trending",
       className: "hidden lg:inline-flex",
     },
     {
-      id: "buy-again",
-      href: "/buy-again",
-      label: "Buy Again",
-      className: "hidden lg:inline-flex",
-    },
-    {
-      id: "toolkit",
-      href: "/toolkit",
-      label: "Shopper Toolkit",
-      className: "hidden lg:inline-flex",
-    },
-    {
-      id: "health",
-      href: "/health",
-      label: "Health & Personal Care",
+      id: "bestsellers",
+      href: "/",
+      label: "Best Sellers",
       className: "hidden lg:inline-flex",
     },
   ];
@@ -82,9 +71,7 @@ const Navbar = async () => {
 
       {/* bottom nav */}
       <div className="flex space-x-3 p-2 pl-6 items-center bg-amazon_blue-light text-white text-sm">
-        <p className="h-6 mr-2 link flex gap-1 items-center">
-          <Menu className="h-6" /> All
-        </p>
+        <Sidebar />
         {bottomNavLinks.map((link) => (
           <Link
             key={link.id}

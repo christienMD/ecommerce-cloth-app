@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import HasPrime from "../../HasPrime/HasPrime";
-import StarRating from "../../StarRating/StartRating";
+// import StarRating from "../../StarRating/StartRating";
 import Currency from "../../Currency/Currency";
 import useCartStore from "@/app/store/useCartStore";
 import { Prisma } from "@prisma/client";
@@ -47,7 +47,7 @@ const ProductCard = ({ product }: Props) => {
       </div>
 
       <h4 className="mt-1.5 mb-0.5 font-semibold text-lg">{product.name}</h4>
-      <StarRating />
+      {/* <StarRating /> */}
       <p className="text-xs line-clamp-2 my-2 text-gray-600">
         {product.description}
       </p>

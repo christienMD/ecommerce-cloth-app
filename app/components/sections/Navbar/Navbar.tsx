@@ -4,22 +4,15 @@ import Search from "@/app/components/Search/Search";
 import UserProfile from "@/app/components/UserProfile/UserProfile";
 import { auth } from "@/auth";
 import Link from "next/link";
-import Sidebar from "../Sidebar/Sidebar";
+import SidebarWrapper from "../../SidebarWrapper/SidebarWrapper";
 
 const Navbar = async () => {
   const session = await auth();
 
   const bottomNavLinks = [
-    { id: "all", href: "/", label: "All Products" },
-    { id: "new", href: "/", label: "New Arrivals" },
+    { id: "all", href: "/products", label: "All Products" },
     { id: "deals", href: "/", label: "Today's Deals" },
     { id: "orders", href: "/orders", label: "Returns & Orders" },
-    {
-      id: "featured",
-      href: "/",
-      label: "Featured",
-      className: "hidden lg:inline-flex",
-    },
     {
       id: "trending",
       href: "/",
@@ -71,7 +64,7 @@ const Navbar = async () => {
 
       {/* bottom nav */}
       <div className="flex space-x-3 p-2 pl-6 items-center bg-amazon_blue-light text-white text-sm">
-        <Sidebar />
+        <SidebarWrapper />
         {bottomNavLinks.map((link) => (
           <Link
             key={link.id}

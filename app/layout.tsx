@@ -20,26 +20,26 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dress Realm | Premium Fashion E-commerce Platform",
-    template: "%s | Dress Realm",
+    default: " Rehoboth wears | Premium Fashion E-commerce Platform",
+    template: "%s |  Rehoboth wears",
   },
   description:
-    "Discover Dress Realm's curated collection of premium clothing. Shop the latest fashion trends with our easy-to-use e-commerce platform featuring detailed product variants, size guides, and seamless shopping experience.",
+    "Discover  Rehoboth wears's curated collection of premium clothing. Shop the latest fashion trends with our easy-to-use e-commerce platform featuring detailed product variants, size guides, and seamless shopping experience.",
   keywords: [
     "fashion",
     "clothing store",
     "online shopping",
     "premium clothing",
-    "dress realm",
+    "Rehoboth wears",
     "fashion e-commerce",
     "clothing variants",
     "designer clothes",
     "fashion retail",
     "online fashion store",
   ],
-  authors: [{ name: "Dress Realm" }],
-  creator: "Dress Realm",
-  publisher: "Dress Realm",
+  authors: [{ name: " Rehoboth wears" }],
+  creator: " Rehoboth wears",
+  publisher: " Rehoboth wears",
 };
 
 export default function RootLayout({

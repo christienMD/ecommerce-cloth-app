@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sheet,
   SheetContent,
@@ -7,35 +9,35 @@ import {
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import Link from "next/link";
-import prisma from "@/prisma/client";
+import { useState } from "react";
+import { Category } from "@prisma/client";
 
-const Sidebar = async () => {
-  // Fetch only categories
-  const categories = await prisma.category.findMany({
-    orderBy: {
-      name: "asc",
-    },
-  });
+// Interface for component props
+interface SidebarProps {
+  categories: Category[];
+}
 
-  // Enhanced function to handle special characters and make URL-safe names
-  const formatForUrl = (str: string) => {
-    return encodeURIComponent(
-      str
-        .toLowerCase()
-        .replace(/[/\\]/g, "-") 
-        .replace(/\s+/g, "-") 
-        .replace(/[&]/g, "and") // Replace & with 'and'
-        .replace(/[^a-z0-9-]/g, "") // Remove any other special characters
-        .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
-        .trim() // Remove leading/trailing spaces
-    );
-  };
+const formatForUrl = (str: string) => {
+  return encodeURIComponent(
+    str
+      .toLowerCase()
+      .replace(/[/\\]/g, "-")
+      .replace(/\s+/g, "-")
+      .replace(/[&]/g, "and")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-")
+      .trim()
+  );
+};
+
+const Sidebar = ({ categories }: SidebarProps) => {
+  const [open, setOpen] = useState(false);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <button className="h-6 mr-2 flex gap-1 items-center text-dress_realm-yellow hover:text-white transition-colors">
-          <Menu className="h-6" /> All
+          <Menu className="h-8 w-8" />
         </button>
       </SheetTrigger>
       <SheetContent
@@ -55,6 +57,7 @@ const Sidebar = async () => {
                 href={`/categories/${formatForUrl(category.name)}/${
                   category.id
                 }`}
+                onClick={() => setOpen(false)}
                 className="text-white hover:text-dress_realm-yellow transition-colors p-3 rounded-md hover:bg-amazon_blue-light"
               >
                 {category.name}

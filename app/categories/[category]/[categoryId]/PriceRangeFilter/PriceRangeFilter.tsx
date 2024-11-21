@@ -49,10 +49,6 @@ const PriceRangeFilter = () => {
         current.delete("maxPrice");
       }
 
-      const page = searchParams.get("page");
-      if (page) {
-        current.set("page", "1");
-      }
 
       const search = current.toString();
       const query = search ? `?${search}` : "";

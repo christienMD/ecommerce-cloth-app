@@ -64,9 +64,9 @@ const AllProducts = () => {
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <h1 className="text-2xl font-bold text-amazon_blue">All Products</h1>
-          <p className="text-gray-600 mt-1">
+          {/* <p className="text-gray-600 mt-1">
             {allProducts.length} products loaded
-          </p>
+          </p> */}
         </div>
 
         {/* Products Grid */}

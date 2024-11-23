@@ -126,7 +126,7 @@ const ProductFeed = ({ searchParams }: ProductFeedProps) => {
           href="/products"
           className="bg-dress_realm-yellow hover:opacity-75 text-amazon_blue font-medium w-80 py-3 px-8 rounded-md transition-colors disabled:opacity-50 disabled:cursor-text inline-flex items-center justify-center gap-2"
         >
-          Show More Products
+          See All Products
         </Link>
       </div>
     </div>

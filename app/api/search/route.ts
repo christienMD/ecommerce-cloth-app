@@ -1,4 +1,4 @@
-// app/api/products/route.ts
+// app/api/search/route.ts
 import prisma from "@/prisma/client";
 import { NextResponse } from "next/server";
 
@@ -10,6 +10,7 @@ const DEFAULT_PAGE_SIZE = 19;
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
+    const query = searchParams.get("search") || "";
     const page = parseInt(searchParams.get("page") || "1");
     const pageSize = parseInt(
       searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString()
@@ -18,6 +19,13 @@ export async function GET(request: Request) {
 
     const [products, totalCount] = await prisma.$transaction([
       prisma.product.findMany({
+        where: {
+          OR: [
+            { name: { contains: query, mode: "insensitive" } },
+            { description: { contains: query, mode: "insensitive" } },
+            { category: { name: { contains: query, mode: "insensitive" } } },
+          ],
+        },
         include: {
           category: true,
           images: true,
@@ -29,7 +37,15 @@ export async function GET(request: Request) {
           createdAt: "desc",
         },
       }),
-      prisma.product.count(),
+      prisma.product.count({
+        where: {
+          OR: [
+            { name: { contains: query, mode: "insensitive" } },
+            { description: { contains: query, mode: "insensitive" } },
+            { category: { name: { contains: query, mode: "insensitive" } } },
+          ],
+        },
+      }),
     ]);
 
     return NextResponse.json({
@@ -42,7 +58,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error searching products:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

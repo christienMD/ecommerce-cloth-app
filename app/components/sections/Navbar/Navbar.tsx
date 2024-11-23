@@ -36,7 +36,9 @@ const Navbar = async () => {
         </div>
 
         {/* search */}
-        <Search />
+        <div className="hidden md:block w-full">
+          <Search />
+        </div>
 
         {/* right */}
         <div className="text-white flex items-center text-xs space-x-6 mx-6">

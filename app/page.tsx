@@ -1,14 +1,19 @@
 import Banner from "./components/sections/Banner/Banner";
 import ProductFeed from "./components/sections/ProductFeed/ProductFeed";
 
-export default function Home() {
+interface Props {
+  searchParams?: { search?: string };
+}
+
+export default function Home({searchParams}:Props) {
   return (
     <div className="bg-gray-100">
       <main className="max-w-screen-2xl mx-auto pb-16">
         {/* Banner */}
-        <Banner />
+        {!searchParams?.search && <Banner />}
+
         {/* products */}
-        <ProductFeed />
+        <ProductFeed searchParams={searchParams} />
       </main>
     </div>
   );

@@ -13,6 +13,8 @@ const useProducts = () => {
   return useQuery<ProductWithDetails[], Error>({
     queryKey: ["products"],
     queryFn: fetchProducts,
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60,
   });
 };
 

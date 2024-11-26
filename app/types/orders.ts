@@ -9,3 +9,13 @@ export type OrderWithDetails = Order & {
   })[];
   user: User; // Include user in the type
 };
+
+export interface CustomerDetails {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export type OrderWithCustomerDetails = OrderWithDetails & {
+  customerDetails: CustomerDetails;
+};

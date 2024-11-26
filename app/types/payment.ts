@@ -51,6 +51,8 @@ export interface CartData {
 
 export type PaymentMethod = "mobile money" | "orange money" | "card";
 
+
+
 // import { Decimal } from "@prisma/client/runtime/library";
 // // types/payment.ts
 

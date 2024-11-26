@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
 async function handleSuccessfulPayment(payment: PaymentStatus) {
   try {
-    console.log("1. Starting payment processing with ID:", payment.externalId);
+    // console.log("1. Starting payment processing with ID:", payment.externalId);
 
     const pendingOrder = await prisma.pendingOrder.findUnique({
       where: { id: payment.externalId },
@@ -53,17 +53,17 @@ async function handleSuccessfulPayment(payment: PaymentStatus) {
       );
     }
 
-    console.log("2. Found pending order:", pendingOrder);
+    // console.log("2. Found pending order:", pendingOrder);
 
     const cartItems = JSON.parse(pendingOrder.cartData);
-    console.log("3. Parsed cart items:", cartItems);
+    // console.log("3. Parsed cart items:", cartItems);
 
     let user = await prisma.user.findUnique({
       where: { email: payment.email },
     });
 
     if (!user) {
-      console.log("4. Creating new user for:", payment.email);
+      // console.log("4. Creating new user for:", payment.email);
       user = await prisma.user.create({
         data: {
           email: payment.email,
@@ -78,17 +78,17 @@ async function handleSuccessfulPayment(payment: PaymentStatus) {
       });
     }
 
-    console.log("5. User:", user);
-    console.log(
-      "6. Preparing order items:",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cartItems.map((item: any) => ({
-        quantity: item.quantity,
-        price: item.price,
-        productId: item.productId,
-        size: item.selectedSizes[0] || "LG",
-      }))
-    );
+    // console.log("5. User:", user);
+    // console.log(
+    //   "6. Preparing order items:",
+    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //   cartItems.map((item: any) => ({
+    //     quantity: item.quantity,
+    //     price: item.price,
+    //     productId: item.productId,
+    //     size: item.selectedSizes[0] || "LG",
+    //   }))
+    // );
 
     const order = await prisma.order.create({
       data: {
@@ -119,7 +119,7 @@ async function handleSuccessfulPayment(payment: PaymentStatus) {
       },
     });
 
-    console.log("7. Created order:", order);
+    // console.log("7. Created order:", order);
 
     // Send email notification
     try {
@@ -132,9 +132,9 @@ async function handleSuccessfulPayment(payment: PaymentStatus) {
           phone: pendingOrder.phone || "No phone provided",
         },
       });
-      console.log("9. Email notification sent successfully");
+      // console.log("9. Email notification sent successfully");
     } catch (emailError) {
-      console.error("Email notification failed:", emailError);
+      // console.error("Email notification failed:", emailError);
     }
 
     await prisma.pendingOrder.delete({

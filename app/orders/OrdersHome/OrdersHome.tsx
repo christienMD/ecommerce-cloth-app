@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import AdminContactCard from '@/app/components/cards/AdminContactCard/AdminContactCard';
 
 type OrderWithItems = Order & {
   items: (OrderItem & {
@@ -58,8 +59,12 @@ export default async function OrdersHome() {
           <CardContent className="pt-6">
             <div className="text-center">
               <Package className="mx-auto h-12 w-12 text-gray-400" />
-              <h3 className="mt-2 text-lg font-medium text-gray-900">Sign in Required</h3>
-              <p className="mt-1 text-sm text-gray-500">Please login to view your orders</p>
+              <h3 className="mt-2 text-lg font-medium text-gray-900">
+                Sign in Required
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Please login to view your orders
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -67,7 +72,7 @@ export default async function OrdersHome() {
     );
   }
 
-  const orders = await prisma.order.findMany({
+  const orders = (await prisma.order.findMany({
     where: {
       user: {
         email: session.user.email,
@@ -87,7 +92,7 @@ export default async function OrdersHome() {
     orderBy: {
       createdAt: "desc",
     },
-  }) as OrderWithItems[];
+  })) as OrderWithItems[];
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -105,7 +110,9 @@ export default async function OrdersHome() {
               <CardContent className="py-16">
                 <div className="text-center">
                   <Package className="mx-auto h-12 w-12 text-gray-400" />
-                  <h3 className="mt-2 text-lg font-medium text-gray-900">No orders yet</h3>
+                  <h3 className="mt-2 text-lg font-medium text-gray-900">
+                    No orders yet
+                  </h3>
                   <p className="mt-1 text-sm text-gray-500">
                     When you make a purchase, your orders will appear here
                   </p>
@@ -118,7 +125,9 @@ export default async function OrdersHome() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[150px] text-nowrap">Order ID</TableHead>
+                      <TableHead className="w-[150px] text-nowrap">
+                        Order ID
+                      </TableHead>
                       <TableHead>Items</TableHead>
                       <TableHead>Products</TableHead>
                       <TableHead>Date</TableHead>
@@ -135,9 +144,15 @@ export default async function OrdersHome() {
                         <TableCell>
                           <div className="flex items-center gap-4">
                             {order.items.slice(0, 3).map((item) => (
-                              <div key={item.id} className="relative h-12 w-12 flex-shrink-0">
+                              <div
+                                key={item.id}
+                                className="relative h-12 w-12 flex-shrink-0"
+                              >
                                 <Image
-                                  src={item.product.images[0]?.imageUrl || "/placeholder.jpg"}
+                                  src={
+                                    item.product.images[0]?.imageUrl ||
+                                    "/placeholder.jpg"
+                                  }
                                   alt={item.product.name}
                                   fill
                                   className="object-cover rounded"
@@ -154,18 +169,24 @@ export default async function OrdersHome() {
                         <TableCell>
                           <div className="max-w-[200px]">
                             {order.items.map((item, idx) => (
-                              <div key={idx} className="text-sm text-gray-600 truncate">
+                              <div
+                                key={idx}
+                                className="text-sm text-gray-600 truncate"
+                              >
                                 {item.quantity}x {item.product.name}
                               </div>
                             ))}
                           </div>
                         </TableCell>
                         <TableCell>
-                          {new Date(order.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}
+                          {new Date(order.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )}
                         </TableCell>
                         <TableCell>
                           <Currency price={Number(order.totalAmount)} />
@@ -182,6 +203,9 @@ export default async function OrdersHome() {
           )}
         </div>
       </div>
+
+      {/* Admin Contact Card */}
+      <AdminContactCard />
     </div>
   );
 }

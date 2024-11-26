@@ -2,7 +2,7 @@
 "use server";
 import nodemailer from "nodemailer";
 import { Prisma } from "@prisma/client";
-import type { OrderWithDetails } from "@/app/types/orders";
+import type { OrderWithCustomerDetails} from "@/app/types/orders";
 
 const SMTP_SERVER_HOST = "smtp.gmail.com";
 const SMTP_SERVER_USERNAME = process.env.SMTP_SERVER_USERNAME;
@@ -33,9 +33,9 @@ const formatCurrency = (amount: Prisma.Decimal | number): string => {
   }).format(numberAmount);
 };
 
-export async function sendOrderNotification(order: OrderWithDetails) {
+export async function sendOrderNotification(order: OrderWithCustomerDetails) {
   try {
-    console.log("Starting email send process...");
+    // console.log("Starting email send process...");
 
     // Verify transporter
     const isVerified = await transporter.verify();

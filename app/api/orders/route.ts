@@ -5,6 +5,8 @@ import prisma from "@/prisma/client";
 import { auth } from "@/auth";
 import { OrderWithDetails } from "@/app/types/orders";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const session = await auth();

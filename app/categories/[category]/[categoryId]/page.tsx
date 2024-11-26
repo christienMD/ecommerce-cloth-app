@@ -16,6 +16,8 @@ interface Props {
   };
 }
 
+export const maxDuration = 60;
+
 async function ProductCategoryPage({ params, searchParams }: Props) {
   const currentPage = parseInt(searchParams.page) || 1;
   const pageSize = 9;

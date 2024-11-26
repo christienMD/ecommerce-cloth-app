@@ -10,7 +10,7 @@ async function CheckOutPage() {
     redirect("/api/auth/signin?callbackUrl=/checkout");
   }
 
-  return <CartItemFeed />;
+  return  <CartItemFeed userEmail={session.user?.email} />;
 }
 
 export default CheckOutPage;

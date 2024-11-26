@@ -5,7 +5,7 @@ import { useState } from "react";
 import HasPrime from "../../HasPrime/HasPrime";
 // import StarRating from "../../StarRating/StartRating";
 import Currency from "../../Currency/Currency";
-import useCartStore from "@/app/store/useCartStore";
+import useCartStore from "@/app/stores/useCartStore";
 import { Prisma } from "@prisma/client";
 import { ProductWithDetails } from "@/app/types/entities";
 

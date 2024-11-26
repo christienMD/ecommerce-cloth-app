@@ -9,7 +9,7 @@ export function Currency({ price }: Props) {
   const validPrice = isNaN(price) ? 0 : price;
   const formattedPrice = formatPrice(validPrice);
 
-  return <span className="font-medium text-gray-700">{formattedPrice}</span>;
+  return <span className="font-bold text-gray-800">{formattedPrice}</span>;
 }
 
 export default Currency;

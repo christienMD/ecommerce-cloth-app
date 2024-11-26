@@ -80,15 +80,15 @@ model Product {
   description     String?
   price           Decimal
   stockLevel      Int
+  isPrimeDelivery Boolean          @default(false)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   categoryId      Int
-  isPrimeDelivery Boolean          @default(false)
   category        Category         @relation(fields: [categoryId], references: [id])
   images          ProductImage[]
   variants        ProductVariant[]
   sizes           ProductSize[]
-  orderItems      OrderItem[] 
+  orderItems      OrderItem[]
 }
 
 model ProductVariant {
@@ -101,14 +101,20 @@ model ProductVariant {
   product    Product  @relation(fields: [productId], references: [id])
 }
 
+enum Size {
+  LG
+  XL
+  XXL
+}
+
 model ProductSize {
   id         Int      @id @default(autoincrement())
-  size       String
+  size       Size
   productId  Int
   stockLevel Int      @default(10)
-  createdAt  DateTime @default(now()) @db.Timestamp(6)
-  updatedAt  DateTime @default(now()) @updatedAt @db.Timestamp(6)
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([productId, size])
   @@map("product_sizes")
@@ -139,7 +145,6 @@ model PendingOrder {
   cartData  String
   createdAt DateTime @default(now())
   email     String
-  phone     String?
   amount    Decimal
 }
 
@@ -147,24 +152,11 @@ model OrderItem {
   id        Int      @id @default(autoincrement())
   quantity  Int
   price     Decimal
+  size      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orderId   Int
   productId Int
-  size      String?
   order     Order    @relation(fields: [orderId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id]) // Changed to product relation
 }
-
-enum Size {
-  LG
-  XL
-  XXL
-}
-
-enum product_size {
-  LG
-  XL
-  XXL
-}
-

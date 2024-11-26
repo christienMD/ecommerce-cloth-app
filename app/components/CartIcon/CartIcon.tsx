@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
-import useCartStore from "@/app/store/useCartStore";
+import useCartStore from "@/app/stores/useCartStore";
 
 const CartIcon = () => {
   const totalProducts = useCartStore((state) => state.getTotalItems());
